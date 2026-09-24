@@ -1,0 +1,2224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Portfolio — Dinh Quoc Tri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        box-sizing: border-box;
+        --bg: #fafaf8;
+        --bg2: #ffffff;
+        --ink: #16181d;
+        --ink2: #434850;
+        --muted: #80858e;
+        --ghost: rgba(22, 24, 29, 0.05);
+        --line: #e5e5e0;
+        --chip: #f1f1ec;
+        --accent: #0f766e;
+        --accent-soft: rgba(15, 118, 110, 0.1);
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.04), 0 16px 36px -18px rgba(0, 0, 0, 0.18);
+        --head: "Space Grotesk", "Inter", system-ui, sans-serif;
+        --sans:
+          "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+      }
+      :root[data-theme="dark"] {
+        --bg: #111315;
+        --bg2: #181b1e;
+        --ink: #ecedee;
+        --ink2: #bfc3c8;
+        --muted: #868b93;
+        --ghost: rgba(255, 255, 255, 0.045);
+        --line: #272a2e;
+        --chip: #1d2023;
+        --accent: #2dd4bf;
+        --accent-soft: rgba(45, 212, 191, 0.12);
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 36px -18px rgba(0, 0, 0, 0.7);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font: 15px/1.6 var(--sans);
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        overflow: hidden;
+      }
+      a {
+        color: inherit;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+      ::selection {
+        background: var(--accent-soft);
+      }
+
+      /* ---------- deck ---------- */
+      #deck {
+        height: 100%;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+      }
+      .slide {
+        position: relative;
+        min-height: 100%;
+        scroll-snap-align: start;
+        display: flex;
+        padding: 28px clamp(20px, 6vw, 88px) 64px;
+        overflow: hidden;
+      }
+      .slide::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: var(--line);
+        pointer-events: none;
+      }
+      .slide.no-line::before {
+        display: none;
+      }
+      .inner {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+      }
+      .body {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: clamp(24px, 5vh, 56px) 0;
+      }
+      .body > * {
+        width: 100%;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(40px, 8vw, 120px);
+        align-items: center;
+      }
+      .split.top {
+        align-items: start;
+      }
+
+      /* page header */
+      .phead {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        height: 44px;
+        padding-right: 150px;
+        font: 500 12px/1 var(--mono);
+        letter-spacing: 0.04em;
+        color: var(--muted);
+      }
+      .phead b {
+        font-weight: 500;
+        color: var(--accent);
+      }
+      .phead em {
+        font-style: normal;
+        margin-left: auto;
+      }
+
+      /* ---------- chrome ---------- */
+      .controls {
+        position: fixed;
+        top: 39px;
+        right: clamp(20px, 6vw, 88px);
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .lang {
+        font: 600 11px/1 var(--mono);
+        letter-spacing: 0.06em;
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 7px 9px;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .lang:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .theme {
+        width: 38px;
+        height: 22px;
+        border-radius: 22px;
+        border: 1px solid var(--line);
+        background: var(--chip);
+        position: relative;
+        cursor: pointer;
+      }
+      .theme::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--ink);
+        transition: transform 0.3s;
+      }
+      :root[data-theme="dark"] .theme::after {
+        transform: translateX(16px);
+      }
+      .counter {
+        position: fixed;
+        left: clamp(20px, 6vw, 88px);
+        bottom: 22px;
+        z-index: 50;
+        font: 500 12px/1 var(--mono);
+        color: var(--ink);
+      }
+      .counter span {
+        color: var(--muted);
+      }
+      .progress {
+        position: fixed;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .progress button {
+        width: 4px;
+        height: 12px;
+        border-radius: 2px;
+        border: none;
+        background: var(--line);
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          height 0.3s;
+      }
+      .progress button:hover {
+        background: var(--muted);
+      }
+      .progress button.on {
+        background: var(--accent);
+        height: 22px;
+      }
+
+      /* ---------- type ---------- */
+      h1,
+      h2,
+      h3,
+      .head {
+        font-family: var(--head);
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+      }
+      .title {
+        font-size: clamp(40px, 5vw, 68px);
+        font-weight: 700;
+        margin-bottom: 18px;
+      }
+      .title .dot {
+        color: var(--accent);
+      }
+      .lead {
+        font-size: 16px;
+        line-height: 1.75;
+        color: var(--ink2);
+        max-width: 52ch;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .label {
+        font: 500 11px/1.4 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .chip {
+        font-size: 12.5px;
+        line-height: 1;
+        padding: 7px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        background: var(--bg2);
+        color: var(--ink);
+      }
+      .bullets {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+        color: var(--ink2);
+        font-size: 14.5px;
+      }
+      .bullets li {
+        position: relative;
+        padding-left: 20px;
+      }
+      .bullets li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+
+      /* buttons */
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 26px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font: 600 13.5px/1 var(--sans);
+        padding: 12px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        border: 1px solid var(--line);
+        background: var(--bg2);
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        border-color: var(--ink);
+      }
+      .btn.solid {
+        background: var(--ink);
+        color: var(--bg);
+        border-color: var(--ink);
+      }
+      .btn.solid:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .accounts {
+        flex-basis: 100%;
+        margin-top: 4px;
+        font: 12.5px/1.8 var(--mono);
+        color: var(--ink2);
+        background: var(--chip);
+        border-radius: 8px;
+        padding: 10px 14px;
+        max-width: min(380px, 100%);
+      }
+      .accounts b {
+        display: block;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+      }
+
+      /* list rows (timeline, skills, stack, features, projects) */
+      .rows {
+        border-top: 1px solid var(--line);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 20px;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .row .label {
+        padding-top: 3px;
+      }
+      .row h4 {
+        font: 600 16px/1.35 var(--head);
+        letter-spacing: -0.01em;
+      }
+      .row .org {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 2px 0 6px;
+      }
+      .row p {
+        font-size: 14px;
+        line-height: 1.65;
+        color: var(--ink2);
+      }
+      .sec {
+        font: 500 12px/1 var(--mono);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 14px;
+      }
+      .sec.mt {
+        margin-top: 34px;
+      }
+
+      /* ---------- 01 cover ---------- */
+      .cover h1 {
+        font-size: clamp(52px, 7.4vw, 112px);
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 0.95;
+      }
+      .cover h1 span {
+        display: block;
+        color: var(--accent);
+      }
+      .cover .role {
+        margin-top: 26px;
+        font: 500 clamp(18px, 1.8vw, 22px)/1.4 var(--head);
+        color: var(--ink2);
+      }
+      .cover dl {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        border-top: 1px solid var(--line);
+      }
+      .cover dt,
+      .cover dd {
+        padding: 15px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .cover dt {
+        font: 500 11px/1.9 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .cover dd {
+        font-weight: 500;
+      }
+      .status::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+        margin-right: 8px;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+      }
+      .scroll-hint {
+        position: absolute;
+        width: auto;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        font: 500 11px/1 var(--mono);
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        text-transform: uppercase;
+        animation: bob 2s ease-in-out infinite;
+      }
+      @keyframes bob {
+        50% {
+          transform: translate(-50%, 5px);
+        }
+      }
+
+      /* ---------- 02 about ---------- */
+      .about h3 {
+        font-size: clamp(22px, 2.2vw, 28px);
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+      .edu {
+        margin-top: 26px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+      .edu h4 {
+        font: 600 17px/1.35 var(--head);
+        letter-spacing: -0.01em;
+        margin-top: 8px;
+      }
+      .edu p {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .edu-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 34px;
+        margin-top: 16px;
+      }
+      .edu-stats b {
+        display: block;
+        font: 700 30px/1 var(--head);
+        letter-spacing: -0.03em;
+        margin-bottom: 6px;
+      }
+      .info {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        border-top: 1px solid var(--line);
+      }
+      .info dt,
+      .info dd {
+        padding: 14px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .info dt {
+        font: 500 11px/1.9 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .info a {
+        text-decoration: none;
+      }
+      .info a:hover {
+        color: var(--accent);
+      }
+
+      /* ---------- 04 skills ---------- */
+      .row .chips {
+        align-self: center;
+      }
+
+      /* ---------- 05 selected ---------- */
+      .plist {
+        border-top: 1px solid var(--line);
+      }
+      .pitem {
+        display: grid;
+        grid-template-columns: 44px 1fr auto;
+        gap: 16px;
+        align-items: start;
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        border-bottom: 1px solid var(--line);
+        padding: 22px 12px 22px 0;
+        cursor: pointer;
+        transition:
+          padding 0.25s,
+          background 0.25s;
+      }
+      .pitem:hover {
+        padding-left: 12px;
+        background: var(--bg2);
+      }
+      .pitem .n {
+        font: 500 13px/1.8 var(--mono);
+        color: var(--accent);
+      }
+      .pitem h3 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .pitem p {
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+      .pitem .arr {
+        font-size: 20px;
+        color: var(--muted);
+        transition:
+          transform 0.25s,
+          color 0.25s;
+      }
+      .pitem:hover .arr {
+        transform: translateX(4px);
+        color: var(--accent);
+      }
+      .count {
+        display: flex;
+        gap: 40px;
+        margin-top: 34px;
+      }
+      .count b {
+        display: block;
+        font: 700 44px/1 var(--head);
+        letter-spacing: -0.03em;
+      }
+
+      /* ---------- projects ---------- */
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        margin-bottom: 16px;
+      }
+      .proj .title {
+        margin-bottom: 10px;
+      }
+      .tagline {
+        font: 500 18px/1.4 var(--head);
+        color: var(--ink2);
+        margin-bottom: 18px;
+      }
+      .proj .lead {
+        margin-bottom: 22px;
+      }
+      .feat .n {
+        font: 500 13px/1.5 var(--mono);
+        color: var(--accent);
+      }
+      .row.feat {
+        grid-template-columns: 44px 1fr;
+      }
+
+      .media {
+        position: relative;
+        isolation: isolate;
+      }
+      .halo {
+        position: absolute;
+        inset: 4% -9% -12%;
+        z-index: -1;
+        border-radius: 48px;
+        filter: blur(56px) saturate(1.6);
+        opacity: 0.8;
+        pointer-events: none;
+      }
+      :root[data-theme="dark"] .halo {
+        opacity: 0.45;
+      }
+      .frame {
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .frame .bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+        font: 11px/1 var(--mono);
+        color: var(--muted);
+      }
+      .frame .bar i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--line);
+      }
+      .frame .bar em {
+        font-style: normal;
+        margin-left: 8px;
+      }
+      .shot {
+        aspect-ratio: 16/10;
+        position: relative;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: var(--shot, var(--chip));
+        color: rgba(20, 20, 20, 0.55);
+        font-size: 13px;
+        text-align: center;
+      }
+      .shot img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+      }
+      .shot.has-img {
+        aspect-ratio: auto;
+        display: block;
+        background: var(--bg2);
+      }
+      .shot.has-img img {
+        position: static;
+        height: auto;
+      }
+      .shot .ph {
+        display: grid;
+        gap: 8px;
+        place-items: center;
+        padding: 20px;
+      }
+      .play {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+      }
+      .play span {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s;
+      }
+      .play:hover span {
+        transform: scale(1.08);
+      }
+      .play span::after {
+        content: "";
+        border-left: 16px solid #16181d;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        margin-left: 4px;
+      }
+      .caption {
+        margin-top: 12px;
+        font: 12px/1.4 var(--mono);
+        color: var(--muted);
+      }
+
+      /* gallery */
+      .gallery {
+        position: relative;
+        height: 260px; /* chỉnh lại theo ảnh cao nhất trong JS */
+        overflow: hidden;
+      }
+      .gallery .g {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 76%;
+        aspect-ratio: var(--ar, 16/10);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        background: var(--shot);
+        display: grid;
+        place-items: center;
+        font: 500 12px/1 var(--mono);
+        color: rgba(20, 20, 20, 0.6);
+        cursor: pointer;
+        transition:
+          transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+          opacity 0.5s;
+      }
+      .gallery .g img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: var(--bg2);
+      }
+      .shot.has-img img,
+      .gallery .g.on img {
+        cursor: zoom-in;
+      }
+      .zoom-hint {
+        text-align: center;
+        margin-top: 8px;
+      }
+      .lb {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: grid;
+        grid-template-columns: 56px minmax(0, 1fr) 56px;
+        align-items: center;
+        gap: 8px;
+        padding: 24px 12px;
+        background: rgba(10, 11, 13, 0.9);
+      }
+      .lb[hidden] {
+        display: none;
+      }
+      .lb figure {
+        grid-column: 2;
+        display: grid;
+        gap: 10px;
+        justify-items: center;
+        min-height: 0;
+      }
+      .lb img {
+        max-width: 100%;
+        max-height: calc(100vh - 90px);
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        background: #fff;
+      }
+      .lb figcaption {
+        font: 12px/1.4 var(--mono);
+        color: #c9ccd1;
+      }
+      .lb button {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer;
+      }
+      .lb button:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .lb .lb-x {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+      }
+      .lb .next {
+        grid-column: 3;
+      }
+      @media (max-width: 900px) {
+        .lb {
+          grid-template-columns: minmax(0, 1fr);
+          padding: 64px 8px 24px;
+        }
+        .lb figure {
+          grid-column: 1;
+        }
+        .lb .prev,
+        .lb .next {
+          position: absolute;
+          bottom: 16px;
+        }
+        .lb .prev {
+          left: calc(50% - 56px);
+        }
+        .lb .next {
+          left: calc(50% + 12px);
+        }
+      }
+      .gnav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        font: 12px/1 var(--mono);
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .gnav button {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: var(--bg2);
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .gnav button:hover {
+        border-color: var(--ink);
+      }
+
+      /* ---------- 15 github / cv ---------- */
+      .gh-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .gh-head svg {
+        width: 40px;
+        height: 40px;
+        flex: none;
+      }
+      .gh-head h3 {
+        font-size: 24px;
+        font-weight: 600;
+      }
+      .gh-head a {
+        font: 12.5px/1.4 var(--mono);
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .gh-head a:hover {
+        color: var(--accent);
+      }
+      .repo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--line);
+        text-decoration: none;
+      }
+      .repo strong {
+        font: 600 15px/1.3 var(--head);
+      }
+      .repo span {
+        display: block;
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .repo em {
+        font-style: normal;
+        color: var(--muted);
+        transition:
+          transform 0.2s,
+          color 0.2s;
+      }
+      .repo:hover strong,
+      .repo:hover em {
+        color: var(--accent);
+      }
+      .repo:hover em {
+        transform: translate(2px, -2px);
+      }
+
+      /* ---------- 16 thanks ---------- */
+      .thanks .body {
+        justify-content: center;
+        text-align: center;
+      }
+      .thanks h2 {
+        font-size: clamp(52px, 8vw, 120px);
+        font-weight: 700;
+        letter-spacing: -0.045em;
+      }
+      .thanks h2 .dot {
+        color: var(--accent);
+      }
+      .thanks p {
+        margin: 18px auto 30px;
+        color: var(--muted);
+        max-width: 40ch;
+      }
+      .thanks .actions {
+        justify-content: center;
+      }
+
+      /* ghost word behind titles */
+      .split > div:first-child,
+      .thanks .body > div {
+        position: relative;
+      }
+      .ghost {
+        position: absolute;
+        left: -0.04em;
+        top: -0.28em;
+        z-index: -1;
+        font: 700 clamp(110px, 14vw, 210px)/1 var(--head);
+        letter-spacing: -0.05em;
+        color: var(--ghost);
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+      }
+      .ghost.center {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: clamp(90px, 16vw, 280px);
+      }
+
+      /* reveal */
+      .slide .body > *:not(.split),
+      .slide .split > * {
+        transition:
+          opacity 1.1s ease 0.15s,
+          transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s;
+      }
+      .slide .split > *:nth-child(2) {
+        transition-delay: 0.4s;
+      }
+      .slide:not(.seen) .body > *:not(.split),
+      .slide:not(.seen) .split > * {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      @media (max-width: 900px) {
+        #deck {
+          scroll-snap-type: y proximity;
+        }
+        .slide {
+          padding: 24px 18px 64px;
+        }
+        .slide::before,
+        .progress {
+          display: none;
+        }
+        .phead {
+          padding-right: 110px;
+        }
+        .phead em {
+          display: none;
+        }
+        .controls {
+          top: 34px;
+          right: 18px;
+        }
+        .split {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 36px;
+        }
+        .row {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .row.feat {
+          grid-template-columns: 36px 1fr;
+        }
+        .gallery {
+          height: 220px;
+        }
+        .gallery .g {
+          width: 88%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+        #deck {
+          scroll-behavior: auto;
+        }
+        .slide:not(.seen) .body > *,
+        .slide:not(.seen) .split > * {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <button class="lang" id="lang" aria-label="Switch language">VI</button>
+      <button
+        class="theme"
+        id="theme"
+        aria-label="Đổi giao diện sáng/tối"
+      ></button>
+    </div>
+    <nav class="progress" id="progress" aria-label="Điều hướng trang"></nav>
+    <div class="counter" id="counter">01 <span>/ 15</span></div>
+    <main id="deck"></main>
+    <div class="lb" id="lb" hidden role="dialog" aria-modal="true">
+      <button class="lb-x" data-lb="close" aria-label="Close">×</button>
+      <button class="prev" data-lb="prev" aria-label="Previous">‹</button>
+      <figure><img id="lb-img" alt="" /><figcaption id="lb-cap"></figcaption></figure>
+      <button class="next" data-lb="next" aria-label="Next">›</button>
+    </div>
+
+    <script>
+      /* =====================================================================
+   CHỈNH SỬA THÔNG TIN CỦA BẠN Ở ĐÂY
+   - Mỗi đoạn chữ có thể là chuỗi thường, hoặc {vi:"...", en:"..."} cho 2 ngôn ngữ
+   - image: dán link ảnh (vd "img/fashion-1.png"); để trống sẽ hiện khung giữ chỗ
+   - Chỗ nào ghi TODO là nội dung mẫu — hãy sửa cho đúng với bạn
+   ===================================================================== */
+      const DATA = {
+        name: { vi: "Đinh Quốc Trí", en: "Dinh Quoc Tri" },
+        headline: { vi: "Kỹ sư Phần mềm", en: "Software Engineer" },
+        // dòng ngắn, dùng ở trang GitHub & CV
+        school: {
+          vi: "Công nghệ Thông tin — UTH · 12/2023 – 09/2026",
+          en: "Information Technology — UTH · Dec 2023 – Sep 2026",
+        },
+        // khối học vấn hiển thị ở trang Hello
+        education: {
+          school: {
+            vi: "Trường Đại học Giao thông vận tải TP.HCM (UTH)",
+            en: "Ho Chi Minh City University of Transport (UTH)",
+          },
+          major: { vi: "Tốt nghiệp ngành Công nghệ Thông tin", en: "Graduated in Information Technology" },
+          time: { vi: "12/2023 – 09/2026", en: "Dec 2023 – Sep 2026" },
+          rank: { vi: "Xếp loại Khá", en: "Classification: Good" },
+          stats: [
+            { v: "2.91", k: { vi: "GPA · thang 4", en: "GPA · 4-pt scale" } },
+            { v: "7.28", k: { vi: "GPA · thang 10", en: "GPA · 10-pt scale" } },
+            { v: "B2", k: { vi: "Tiếng Anh", en: "English" } },
+          ],
+        },
+        about: {
+          vi: "Mình là sinh viên mới tốt nghiệp ngành Công nghệ Thông tin, định hướng lập trình viên full-stack. Qua các dự án cá nhân, mình đã tự làm trọn một sản phẩm từ thiết kế, code đến deploy chạy thật. Mình mong muốn được làm việc trong một đội ngũ chuyên nghiệp, học hỏi từ những người đi trước, đóng góp vào sản phẩm thực tế và phát triển lâu dài trên con đường kỹ sư phần mềm.",
+          en: "I'm a fresh Information Technology graduate aiming to be a full-stack developer. Through my own projects, I've taken products all the way from design and code to live deployment. I'm looking to join a professional team where I can learn from experienced engineers, contribute to real products and grow over the long term as a software engineer.",
+        },
+        contact: [
+          {
+            k: "EMAIL",
+            v: "tridinh288@gmail.com",
+            href: "mailto:tridinh288@gmail.com",
+          },
+          {
+            k: "GITHUB",
+            v: "github.com/tridinh288",
+            href: "https://github.com/tridinh288",
+          },
+          {
+            k: { vi: "ĐIỆN THOẠI", en: "PHONE" },
+            v: "0937 346 144",
+            href: "tel:+84937346144",
+          },
+          {
+            k: { vi: "NƠI Ở", en: "LOCATION" },
+            v: {
+              vi: "TP. Hồ Chí Minh, Việt Nam",
+              en: "Ho Chi Minh City, Vietnam",
+            },
+          },
+        ],
+
+        /* 03. SKILLS — lấy từ công nghệ thực tế trong 3 repo */
+        skills: [
+          {
+            g: { vi: "Ngôn ngữ", en: "Languages" },
+            items: ["TypeScript", "JavaScript (ES6+)", "PHP", "SQL"],
+          },
+          {
+            g: "Frontend",
+            items: [
+              "React",
+              "Vite",
+              "Tailwind CSS",
+              "TanStack Query",
+            ],
+          },
+          {
+            g: "Backend",
+            items: ["Laravel", "Node.js / Express", "REST API"],
+          },
+          {
+            g: { vi: "Cơ sở dữ liệu", en: "Databases" },
+            items: [
+              "PostgreSQL",
+              "MySQL",
+              "TiDB Cloud",
+              "Drizzle ORM",
+            ],
+          },
+          {
+            g: { vi: "Kiểm thử", en: "Testing" },
+            items: ["PHPUnit", "Vitest", "CodeceptJS"],
+          },
+          {
+            g: "DevOps",
+            items: [
+              "Docker",
+              "GitHub Actions",
+              "Render",
+              "Cloudinary",
+              "SonarCloud",
+            ],
+          },
+          {
+            g: { vi: "Công cụ", en: "Tools" },
+            items: ["Postman", "Jira"],
+          },
+          {
+            g: { vi: "Khác", en: "Other" },
+            items: [
+              "RESTful API",
+              "MVC",
+              "LLM tool calling",
+              "Design patterns",
+              "English (B2)",
+            ],
+          },
+        ],
+
+        /* 14. GITHUB / RESUME */
+        github: {
+          user: "tridinh288",
+          href: "https://github.com/tridinh288",
+          bio: {
+            vi: "Mã nguồn đầy đủ của các dự án, kèm README, sơ đồ kiến trúc và tài liệu hướng dẫn chạy.",
+            en: "Full source for my projects, with READMEs, architecture diagrams and setup guides.",
+          },
+        },
+        cv: {
+          view: "DinhQuocTri_Fullstack_Intern_CV.pdf",
+          pdf: "DinhQuocTri_Fullstack_Intern_CV.pdf",
+        }, // link xem CV online và file PDF (vd "cv.pdf")
+
+        /* 05–13. PROJECTS — mỗi dự án tạo 3 trang: Tổng quan · Tính năng · Công nghệ & đóng góp
+           Thứ tự: dự án kỹ thuật nổi bật nhất đứng trước */
+        projects: [
+          {
+            name: "AI-Powered HRM",
+            year: "2026",
+            tagline: {
+              vi: "Quản lý nhân sự có trợ lý AI",
+              en: "HR management with an AI assistant",
+            },
+            role: { vi: "Cá nhân · Full-stack", en: "Solo · Full-stack" },
+            desc: {
+              vi: "Hệ thống quản lý nhân sự cho công ty nhỏ: nhân viên, phòng ban, chấm công, nghỉ phép và dashboard. Trợ lý AI trả lời câu hỏi trên dữ liệu nhân sự thật qua tool call, còn backend quyết định mỗi role được hỏi gì. Viết bằng TypeScript từ frontend đến backend, chạy trọn bộ bằng Docker Compose.",
+              en: "An HR system for a small company: employees, departments, attendance, leave and a dashboard. An AI assistant answers questions over real HR data through tool calls, while the backend decides what each role may ask. TypeScript end to end, runnable as a whole with Docker Compose.",
+            },
+            tags: [
+              "TypeScript",
+              "React",
+              "Express",
+              "PostgreSQL",
+              "Drizzle ORM",
+              "Docker",
+            ],
+            buttons: [
+              {
+                l: "Live demo",
+                h: "https://hrm-api-ubry.onrender.com",
+                solid: true,
+              },
+              { l: "GitHub ↗", h: "https://github.com/tridinh288/AI-HRM" },
+            ],
+            repo: "https://github.com/tridinh288/AI-HRM",
+            // endpoint nhẹ để đánh thức server Render đang ngủ
+            ping: "https://hrm-api-ubry.onrender.com/health",
+            accounts: [
+              "ADMIN: admin@hrm.local",
+              "HR: hr@hrm.local",
+              "EMPLOYEE: employee@hrm.local",
+              "PASSWORD: DemoPassw0rd!",
+            ],
+            cover: {
+              site: "hrm-api-ubry.onrender.com",
+              image: "img/ai-hrm/dashboard.png",
+              shot: "linear-gradient(135deg,#c7d7fe,#8ea8f5 55%,#5b6fd6)",
+            },
+            features: [
+              {
+                t: {
+                  vi: "Trợ lý AI có phân quyền",
+                  en: "Permission-aware AI assistant",
+                },
+                d: {
+                  vi: "Mô hình chỉ chọn tool, không viết SQL. Server kiểm tra role và tham số (Zod), rồi ghi audit mọi lần gọi, kể cả lần bị từ chối.",
+                  en: "The model only picks tools and never writes SQL. The server checks role and arguments (Zod) and audits every call, including rejected ones.",
+                },
+              },
+              {
+                t: { vi: "Xác thực & 3 mức quyền", en: "Auth & three roles" },
+                d: {
+                  vi: "Argon2id, JWT 15 phút, refresh token xoay vòng trong cookie httpOnly có phát hiện tái sử dụng. Lương bị tước khỏi response với người không có quyền.",
+                  en: "Argon2id, 15-minute JWTs, rotating refresh tokens in httpOnly cookies with reuse detection. Salary is stripped from responses for unauthorised viewers.",
+                },
+              },
+              {
+                t: { vi: "Chấm công & nghỉ phép", en: "Attendance & leave" },
+                d: {
+                  vi: "Đi muộn, về sớm tính từ giờ check-in theo cấu hình. Duyệt phép là transaction có khoá dòng, CHECK constraint chặn số dư vượt quyền lợi.",
+                  en: "Late and early flags are derived from check-in times and policy. Leave approval is a row-locked transaction; a CHECK constraint blocks over-entitlement.",
+                },
+              },
+              {
+                t: { vi: "Dashboard & nhân sự", en: "Dashboard & directory" },
+                d: {
+                  vi: "Tìm, lọc, phân trang phía server. Bốn biểu đồ dựng từ SQL tổng hợp thuần, bấm vào con số để mở đúng danh sách đứng sau.",
+                  en: "Server-side search, filters and paging. Four charts from raw aggregate SQL; click any number to open the list behind it.",
+                },
+              },
+            ],
+            featureShot: {
+              site: "hrm-api-ubry.onrender.com/assistant",
+              image: "img/ai-hrm/assistant.png",
+              shot: "linear-gradient(160deg,#dfe7ff,#a9bcf2)",
+            },
+            stack: [
+              {
+                g: "Frontend",
+                items: [
+                  "React",
+                  "TypeScript",
+                  "Vite",
+                  "TanStack Query",
+                  "Tailwind CSS",
+                ],
+              },
+              {
+                g: "Backend",
+                items: ["Node.js", "Express", "Zod", "JWT + Argon2id"],
+              },
+              {
+                g: { vi: "Cơ sở dữ liệu", en: "Database" },
+                items: ["PostgreSQL", "Drizzle ORM"],
+              },
+              {
+                g: "AI",
+                items: [
+                  "Tool calling",
+                  "OpenAI-compatible",
+                  "Anthropic",
+                  "Ollama",
+                ],
+              },
+              {
+                g: "DevOps",
+                items: ["Docker Compose", "GitHub Actions", "Render"],
+              },
+            ],
+            contribution: {
+              vi: [
+                "Thiết kế kiến trúc modular monolith, mỗi module chia routes → controller → service → repository",
+                "Xây tầng AI với 10 tool lọc theo role, mô hình không bao giờ chạm trực tiếp vào database",
+                "Đưa quy tắc nghiệp vụ xuống database: unique index, CHECK constraint, transaction có khoá dòng",
+                "Đóng gói bằng Docker và deploy lên Render bằng Blueprint, dữ liệu demo tự dựng lại mỗi đêm",
+              ],
+              en: [
+                "Designed a modular monolith, each module split into routes → controller → service → repository",
+                "Built the AI layer with 10 role-filtered tools; the model never touches the database directly",
+                "Pushed business rules into the database: unique indexes, CHECK constraints, row-locked transactions",
+                "Containerised with Docker and deployed to Render via Blueprint, with demo data rebuilt nightly",
+              ],
+            },
+            gallery: [
+              {
+                image: "img/ai-hrm/employees.png",
+                shot: "linear-gradient(160deg,#d6e4ff,#8fa7e8)",
+                label: { vi: "Nhân viên", en: "Employees" },
+              },
+              {
+                image: "img/ai-hrm/attendance.png",
+                shot: "linear-gradient(160deg,#e0f2fe,#93c5e8)",
+                label: { vi: "Chấm công", en: "Attendance" },
+              },
+              {
+                image: "img/ai-hrm/leave.png",
+                shot: "linear-gradient(160deg,#ede9fe,#b4a7ec)",
+                label: { vi: "Nghỉ phép", en: "Leave" },
+              },
+              {
+                image: "img/ai-hrm/assistant.png",
+                shot: "linear-gradient(160deg,#e3eaff,#b3c4f5)",
+                label: { vi: "Trợ lý AI", en: "AI assistant" },
+              },
+              {
+                image: "img/ai-hrm/accounts.png",
+                shot: "linear-gradient(160deg,#dcdbe8,#a2a3c2)",
+                label: { vi: "Tài khoản", en: "Accounts" },
+              },
+            ],
+          },
+
+          {
+            name: "PCBuild Analyzer",
+            year: "2026",
+            tagline: {
+              vi: "Phân tích & kiểm tra tương thích cấu hình PC",
+              en: "PC build analysis & compatibility checker",
+            },
+            role: { vi: "Cá nhân · Full-stack", en: "Solo · Full-stack" },
+            desc: {
+              vi: "Ứng dụng web cho phép xem cấu hình mẫu, tùy chỉnh lại hoặc tự build từ đầu, rồi nhận ngay kết quả kiểm tra tương thích, ước tính công suất, phân tích giá và điểm theo mục đích sử dụng. Không cần tài khoản: cấu hình tự build nằm trên URL nên chia sẻ được bằng link.",
+              en: "A web app to browse template builds, customise them or start from scratch, and instantly get compatibility checks, power estimates, price breakdowns and a purpose-based score. No account needed: custom builds live in the URL, so they can be shared as a link.",
+            },
+            tags: ["Laravel", "PHP", "React", "MySQL / TiDB", "Docker"],
+            buttons: [
+              {
+                l: "Live demo",
+                h: "https://pcbuild-web.onrender.com",
+                solid: true,
+              },
+              {
+                l: "GitHub ↗",
+                h: "https://github.com/tridinh288/PCBuild-Analyzer",
+              },
+            ],
+            repo: "https://github.com/tridinh288/PCBuild-Analyzer",
+            // endpoint nhẹ để đánh thức server Render đang ngủ
+            ping: "https://pcbuild-api-2mwk.onrender.com/up",
+            cover: {
+              site: "pcbuild-web.onrender.com",
+              image: "img/pcbuild/build-analysis.png",
+              shot: "linear-gradient(135deg,#bff0e3,#6fd3c1 55%,#2f9e9a)",
+            },
+            features: [
+              {
+                t: { vi: "Kiểm tra tương thích", en: "Compatibility check" },
+                d: {
+                  vi: "13 luật: socket, loại và dung lượng RAM, form factor, khoảng hở card đồ hoạ và tản nhiệt, công suất nguồn, cổng xuất hình.",
+                  en: "13 rules: socket, RAM type and capacity, form factor, GPU and cooler clearance, PSU wattage, display outputs.",
+                },
+              },
+              {
+                t: { vi: "Công suất & giá", en: "Power & price" },
+                d: {
+                  vi: "Ước tính điện năng tiêu thụ, khuyến nghị mức nguồn và phân bổ chi phí theo từng nhóm linh kiện (VND).",
+                  en: "Estimates power draw, recommends a PSU and breaks down cost by component group (VND).",
+                },
+              },
+              {
+                t: {
+                  vi: "Chấm điểm theo mục đích",
+                  en: "Purpose-based scoring",
+                },
+                d: {
+                  vi: "Bốn hồ sơ: Chơi game, Lập trình, Workstation, Sử dụng chung. Mỗi hồ sơ là một Strategy riêng.",
+                  en: "Four profiles: Gaming, Programming, Workstation, General use, each implemented as its own Strategy.",
+                },
+              },
+              {
+                t: { vi: "So sánh & chia sẻ", en: "Compare & share" },
+                d: {
+                  vi: "Đặt 2–3 cấu hình cạnh nhau mà không tuyên bố cấu hình nào thắng. Chia sẻ bằng link hoặc văn bản, tự lưu nháp.",
+                  en: "Puts 2–3 builds side by side without declaring a winner. Share by link or text, with auto-saved drafts.",
+                },
+              },
+            ],
+            featureShot: {
+              site: "pcbuild-web.onrender.com/builder",
+              image: "img/pcbuild/builder.png",
+              shot: "linear-gradient(160deg,#d7f7ee,#8fdcc9)",
+            },
+            stack: [
+              {
+                g: "Backend",
+                items: ["Laravel", "PHP", "Sanctum", "Eloquent"],
+              },
+              {
+                g: "Frontend",
+                items: ["React", "Vite", "React Router", "Tailwind CSS"],
+              },
+              {
+                g: { vi: "Cơ sở dữ liệu", en: "Database" },
+                items: ["MySQL", "TiDB Cloud"],
+              },
+              {
+                g: { vi: "Kiến trúc", en: "Architecture" },
+                items: [
+                  "Pure PHP domain",
+                  "Strategy",
+                  "Specification",
+                  "Factory",
+                ],
+              },
+              {
+                g: "DevOps",
+                items: ["Docker", "GitHub Actions", "Render", "Cloudinary"],
+              },
+            ],
+            contribution: {
+              vi: [
+                "Xây engine phân tích 57 lớp PHP thuần, không chạm database hay HTTP, dùng chung cho cấu hình mẫu lẫn cấu hình tự build",
+                "Thiết kế kiến trúc phân tầng Controller → Service → Domain → Repository, áp dụng Strategy, Specification và Factory",
+                "Đóng gói image Docker multi-stage nền Alpine 262 MB, deploy trên Render + TiDB Cloud + Cloudinary",
+                "Cấu hình trusted proxy đúng sau Cloudflare và proxy của Render để client không giả IP vượt rate limit",
+              ],
+              en: [
+                "Built a 57-class pure-PHP analysis engine with no database or HTTP access, shared by template and custom builds",
+                "Designed a layered Controller → Service → Domain → Repository architecture using Strategy, Specification and Factory",
+                "Packaged a 262 MB multi-stage Alpine Docker image, deployed on Render + TiDB Cloud + Cloudinary",
+                "Configured trusted proxies behind Cloudflare and Render so clients can't spoof IPs to bypass rate limits",
+              ],
+            },
+            gallery: [
+              {
+                image: "img/pcbuild/home.png",
+                shot: "linear-gradient(160deg,#dcf8f0,#9fe3d2)",
+                label: { vi: "Trang chủ", en: "Home" },
+              },
+              {
+                image: "img/pcbuild/builds.png",
+                shot: "linear-gradient(160deg,#d4f1f9,#8bcfe3)",
+                label: { vi: "Cấu hình mẫu", en: "Template builds" },
+              },
+              {
+                image: "img/pcbuild/compare.png",
+                shot: "linear-gradient(160deg,#e2e8f0,#a3b1c6)",
+                label: { vi: "So sánh", en: "Compare" },
+              },
+              {
+                image: "img/pcbuild/components.png",
+                shot: "linear-gradient(160deg,#e6f6d9,#a9d98c)",
+                label: { vi: "Linh kiện", en: "Components" },
+              },
+              {
+                image: "img/pcbuild/architecture-light.png",
+                shot: "linear-gradient(160deg,#dcf8f0,#9fe3d2)",
+                label: { vi: "Kiến trúc", en: "Architecture" },
+              },
+            ],
+          },
+
+          {
+            name: "FashionShop",
+            year: "2026",
+            tagline: {
+              vi: "Website bán quần áo thời trang nam/nữ",
+              en: "Men's & women's fashion e-commerce",
+            },
+            role: { vi: "Cá nhân · Full-stack", en: "Solo · Full-stack" },
+            desc: {
+              vi: "Hệ thống thương mại điện tử theo kiến trúc API-first: một Laravel REST API và hai ứng dụng React riêng cho khách hàng và quản trị viên. Storefront làm theo phong cách editorial tối giản, hiệu ứng GSAP tắt hẳn khi người dùng bật reduced-motion.",
+              en: "An API-first e-commerce system: a Laravel REST API with two separate React apps for shoppers and admins. The storefront follows a minimal editorial style, and its GSAP motion switches off entirely under reduced-motion.",
+            },
+            tags: [
+              "Laravel",
+              "PHP",
+              "React",
+              "Tailwind CSS",
+              "MySQL / TiDB",
+              "GSAP",
+            ],
+            buttons: [
+              {
+                l: "Website",
+                h: "https://fashionshop-web-s4av.onrender.com",
+                solid: true,
+              },
+              { l: "Admin ↗", h: "https://fashionshop-admin.onrender.com" },
+              {
+                l: "GitHub ↗",
+                h: "https://github.com/tridinh288/Fashion-shop",
+              },
+            ],
+            repo: "https://github.com/tridinh288/Fashion-shop",
+            // endpoint nhẹ để đánh thức server Render đang ngủ
+            ping: "https://fashion-shop-4wds.onrender.com/up",
+            accounts: ["ADMIN: admin@fashionshop.vn / Admin123456"],
+            cover: {
+              site: "fashionshop-web-s4av.onrender.com",
+              image: "img/fashionshop/01-trang-chu.png",
+              shot: "linear-gradient(135deg,#f4d9c6,#d7a9a0 55%,#9c7b8f)",
+            },
+            features: [
+              {
+                t: { vi: "Mua sắm", en: "Shopping" },
+                d: {
+                  vi: "Trang chủ ba tab Nổi bật / Bán chạy / Khuyến mãi, lọc theo danh mục và giới tính, tìm kiếm theo tên.",
+                  en: "Home page with Featured / Best-selling / On-sale tabs, filters by category and gender, search by name.",
+                },
+              },
+              {
+                t: { vi: "Giỏ hàng & đặt hàng", en: "Cart & checkout" },
+                d: {
+                  vi: "Chọn size S–XL, đặt hàng COD, lưu nhiều địa chỉ giao hàng, xem lịch sử và huỷ đơn khi còn chờ xử lý.",
+                  en: "Pick sizes S–XL, order with COD, save delivery addresses, view history and cancel pending orders.",
+                },
+              },
+              {
+                t: { vi: "Đánh giá & tài khoản", en: "Reviews & accounts" },
+                d: {
+                  vi: "Đánh giá 1–5 sao kèm bình luận, admin phản hồi được. Đăng ký, hồ sơ, đổi mật khẩu; xác thực bằng Laravel Sanctum.",
+                  en: "1–5 star reviews with comments and shop replies. Sign-up, profile, password change; auth via Laravel Sanctum.",
+                },
+              },
+              {
+                t: { vi: "Trang quản trị", en: "Admin dashboard" },
+                d: {
+                  vi: "Doanh thu tách theo trạng thái đơn, CRUD sản phẩm kèm ảnh, kéo thả chọn vùng ảnh trang chủ, quản lý đơn, người dùng và liên hệ.",
+                  en: "Revenue split by order status, product CRUD with images, drag-to-crop home covers, and order, user and contact management.",
+                },
+              },
+            ],
+            featureShot: {
+              site: "fashionshop-admin.onrender.com",
+              image: "img/fashionshop/07-admin-dashboard.png",
+              shot: "linear-gradient(160deg,#efe6dc,#c9b8a6)",
+            },
+            stack: [
+              {
+                g: "Backend",
+                items: ["Laravel", "PHP", "Sanctum", "Eloquent"],
+              },
+              {
+                g: "Frontend",
+                items: [
+                  "React",
+                  "Vite",
+                  "TanStack Query",
+                  "Zustand",
+                  "Tailwind CSS",
+                  "GSAP",
+                ],
+              },
+              {
+                g: { vi: "Cơ sở dữ liệu", en: "Database" },
+                items: ["MySQL", "TiDB Serverless"],
+              },
+              {
+                g: "DevOps",
+                items: [
+                  "Docker",
+                  "GitHub Actions",
+                  "Render",
+                  "Cloudinary",
+                ],
+              },
+            ],
+            contribution: {
+              vi: [
+                "Thiết kế REST API /api/v1 trên 11 bảng, phân quyền user/admin bằng Sanctum và middleware IsAdmin",
+                "Xây hai frontend React độc lập (storefront và admin) dùng TanStack Query và Zustand",
+                "Làm lại storefront theo phong cách editorial với design token trong Tailwind @theme, tương phản chữ đạt chuẩn",
+                "Deploy miễn phí trên Render (Docker + static site), TiDB Cloud và Cloudinary",
+              ],
+              en: [
+                "Designed the /api/v1 REST API over 11 tables, with user/admin auth via Sanctum and an IsAdmin middleware",
+                "Built two independent React frontends (storefront and admin) with TanStack Query and Zustand",
+                "Redesigned the storefront in an editorial style using Tailwind @theme design tokens with accessible contrast",
+                "Deployed for free on Render (Docker + static sites), TiDB Cloud and Cloudinary",
+              ],
+            },
+            gallery: [
+              {
+                image: "img/fashionshop/03-danh-sach-san-pham.png",
+                shot: "linear-gradient(160deg,#e9dfd3,#bfae9b)",
+                label: { vi: "Sản phẩm", en: "Products" },
+              },
+              {
+                image: "img/fashionshop/04-chi-tiet-san-pham.png",
+                shot: "linear-gradient(160deg,#f6e3d6,#e0bfae)",
+                label: { vi: "Chi tiết", en: "Detail" },
+              },
+              {
+                image: "img/fashionshop/05-danh-gia.png",
+                shot: "linear-gradient(160deg,#f0d6dc,#c795a3)",
+                label: { vi: "Đánh giá", en: "Reviews" },
+              },
+              {
+                image: "img/fashionshop/08-admin-san-pham.png",
+                shot: "linear-gradient(160deg,#dcdbe8,#a2a3c2)",
+                label: { vi: "Quản trị sản phẩm", en: "Admin products" },
+              },
+              {
+                image: "img/fashionshop/10-admin-anh-trang-chu.png",
+                shot: "linear-gradient(160deg,#efe6dc,#c9b8a6)",
+                label: { vi: "Ảnh trang chủ", en: "Home covers" },
+              },
+            ],
+          },
+        ],
+      };
+
+      /* ============================ UI TEXT ============================ */
+      const UI = {
+        vi: {
+          cover: "Portfolio",
+          about: "Về mình",
+          skills: "Kỹ năng",
+          selected: "Dự án tiêu biểu",
+          overview: "Tổng quan",
+          features: "Tính năng chính",
+          tech: "Công nghệ & đóng góp",
+          ghK: "GitHub & CV",
+          contact: "Liên hệ",
+          hello: "Xin chào",
+          iam: "Mình là",
+          role: "Vị trí",
+          loc: "Nơi ở",
+          status: "Trạng thái",
+          available: "Sẵn sàng cho cơ hội mới",
+          seeWork: "Xem dự án",
+          contactMe: "Liên hệ",
+          scroll: "Cuộn xuống ↓",
+          edu: "Học vấn",
+          skillsLead:
+            "Những công nghệ mình dùng thường xuyên trong học tập và dự án thực tế.",
+          selectedLead:
+            "Ba dự án full-stack mình tự làm từ thiết kế, code đến deploy, đều có demo chạy thật. Chọn một dự án để xem chi tiết.",
+          projects: "dự án",
+          techs: "công nghệ",
+          stack: "Công nghệ sử dụng",
+          mine: "Phần mình đảm nhận",
+          screens: "Hình ảnh",
+          accounts: "Tài khoản demo",
+          ghTitle: "Mã nguồn & CV",
+          openGh: "Mở GitHub",
+          cvTitle: "Resume / CV",
+          viewCv: "Xem CV",
+          dlCv: "Tải PDF",
+          eduShort: "Học vấn",
+          thanks: "Cảm ơn bạn",
+          thanksSub:
+            "đã dành thời gian xem portfolio của mình. Rất mong được trao đổi thêm cùng bạn.",
+          shotPh: "Thêm ảnh chụp màn hình vào DATA",
+          zoom: "Bấm vào ảnh để phóng to",
+          video: "Xem video",
+          ghostThanks: "CẢM ƠN",
+        },
+        en: {
+          cover: "Portfolio",
+          about: "About me",
+          skills: "Skills",
+          selected: "Selected projects",
+          overview: "Overview",
+          features: "Key features",
+          tech: "Tech & contribution",
+          ghK: "GitHub & CV",
+          contact: "Contact",
+          hello: "Hello",
+          iam: "I'm",
+          role: "Role",
+          loc: "Location",
+          status: "Status",
+          available: "Open to new opportunities",
+          seeWork: "See projects",
+          contactMe: "Contact",
+          scroll: "Scroll down ↓",
+          edu: "Education",
+          skillsLead:
+            "The technologies I use regularly in my studies and real projects.",
+          selectedLead:
+            "Three full-stack projects I took from design and code through to deployment, each with a live demo. Pick one to see the details.",
+          projects: "projects",
+          techs: "technologies",
+          stack: "Tech stack",
+          mine: "My contribution",
+          screens: "Screens",
+          accounts: "Demo accounts",
+          ghTitle: "Code & CV",
+          openGh: "Open GitHub",
+          cvTitle: "Resume / CV",
+          viewCv: "View CV",
+          dlCv: "Download PDF",
+          eduShort: "Education",
+          thanks: "Thank you",
+          thanksSub:
+            "for taking the time to view my portfolio. I'd love to talk more.",
+          shotPh: "Add a screenshot in DATA",
+          zoom: "Click an image to enlarge",
+          video: "Watch video",
+          ghostThanks: "THANK YOU",
+        },
+      };
+
+      /* ============================ RENDER ============================ */
+      let lang = "en";
+      try {
+        lang = localStorage.getItem("pf-lang") || "en";
+      } catch (e) {}
+      const t = (v) =>
+        v && typeof v === "object" && !Array.isArray(v)
+          ? (v[lang] ?? v.vi ?? v.en)
+          : v;
+      const esc = (s) =>
+        String(s ?? "").replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+      const pad = (n) => String(n).padStart(2, "0");
+      const ext = (h) => `href="${esc(h)}" target="_blank" rel="noopener"`;
+      const chips = (items) =>
+        `<div class="chips">${items.map((x) => `<span class="chip">${esc(x)}</span>`).join("")}</div>`;
+      // big faint word behind the left-column title
+      const ghost = (s, pos = "") =>
+        `<span class="ghost ${pos}" aria-hidden="true">${esc(s)}</span>`;
+      const GH_ICON = `<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.290 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.130-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>`;
+
+      const FIRST_PROJECT = 4; // index (0-based) of the first project slide
+
+      function shot(m) {
+        const ph = `<div class="ph"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>${esc(UI[lang].shotPh)}</div>`;
+        return `<div class="shot${m.image ? " has-img" : ""}" style="--shot:${m.shot || ""}">${m.image ? `<img src="${esc(m.image)}" alt="${esc(m.site || "")}">` : ph}${m.kind === "video" ? `<a class="play" ${ext(m.url)} aria-label="${UI[lang].video}"><span></span></a>` : ""}</div>`;
+      }
+      // blurred copy of the image (or placeholder gradient) sits behind the browser frame
+      const frame = (m) =>
+        `<div class="media"><div class="halo" style="background:${m.image ? `url('${esc(m.image)}') center/cover` : m.shot || "var(--chip)"}"></div><div class="frame"><div class="bar"><i></i><i></i><i></i><em>${esc(m.site || "")}</em></div>${shot(m)}</div></div>`;
+
+      // page wrapper: header bar (number · section · right note) + vertically centred body
+      function page(no, section, right, content, cls = "") {
+        return `<section class="slide ${cls}"><div class="inner">
+    <header class="phead"><b>${pad(no)}</b><span>— ${esc(section)}</span><em>${esc(right)}</em></header>
+    <div class="body">${content}</div>
+  </div></section>`;
+      }
+
+      function projectPages(p, i, no) {
+        const L = UI[lang],
+          right = `${pad(i + 1)} / ${pad(DATA.projects.length)} · ${p.name}`;
+        const buttons = (p.buttons || [])
+          .map(
+            (b) =>
+              `<a class="btn ${b.solid ? "solid" : ""}" ${ext(b.h)}>${esc(t(b.l))}</a>`,
+          )
+          .join("");
+        const acc = p.accounts
+          ? `<div class="accounts"><b>${L.accounts.toUpperCase()}</b>${p.accounts.map(esc).join("<br>")}</div>`
+          : "";
+        const g = p.gallery || [];
+
+        return (
+          page(
+            no,
+            `${p.name} · ${L.overview}`,
+            right,
+            `
+    <div class="split">
+      <div>
+        <div class="meta"><span class="label">${esc(p.year)}</span><span class="label">${esc(t(p.role))}</span></div>
+        ${ghost(pad(i + 1))}<h2 class="title">${esc(p.name)}</h2>
+        <p class="tagline">${esc(t(p.tagline))}</p>
+        <p class="lead">${esc(t(p.desc))}</p>
+        ${chips(p.tags)}
+        <div class="actions">${buttons}${acc}</div>
+      </div>
+      <div>${frame(p.cover)}</div>
+    </div>`,
+            "proj",
+          ) +
+          page(
+            no + 1,
+            `${p.name} · ${L.features}`,
+            right,
+            `
+    <div class="split">
+      <div>
+        ${ghost(pad(i + 1))}<h2 class="title">${L.features}<span class="dot">.</span></h2>
+        <div class="rows">${p.features.map((f, k) => `<div class="row feat"><span class="n">${pad(k + 1)}</span><div><h4>${esc(t(f.t))}</h4><p>${esc(t(f.d))}</p></div></div>`).join("")}</div>
+      </div>
+      <div>${frame(p.featureShot || p.cover)}</div>
+    </div>`,
+            "proj",
+          ) +
+          page(
+            no + 2,
+            `${p.name} · ${L.tech}`,
+            right,
+            `
+    <div class="split">
+      <div>
+        ${ghost(pad(i + 1))}<p class="sec">${L.stack}</p>
+        <div class="rows">${p.stack.map((s) => `<div class="row"><span class="label">${esc(t(s.g))}</span>${chips(s.items)}</div>`).join("")}</div>
+        <p class="sec mt">${L.mine}</p>
+        <ul class="bullets">${t(p.contribution)
+          .map((b) => `<li>${esc(b)}</li>`)
+          .join("")}</ul>
+      </div>
+      <div>${
+        g.length
+          ? `
+        <p class="sec">${L.screens}</p>
+        <div class="gallery" data-g>${g.map((x) => `<div class="g" style="--shot:${x.shot}">${x.image ? `<img src="${esc(x.image)}" alt="${esc(t(x.label))}">` : esc(t(x.label))}</div>`).join("")}</div>
+        <div class="gnav"><button data-prev aria-label="‹">‹</button><span data-gc>1 / ${g.length}</span><button data-next aria-label="›">›</button></div>
+        <p class="caption zoom-hint">${L.zoom}</p>`
+          : ""
+      }
+      </div>
+    </div>`,
+            "proj",
+          )
+        );
+      }
+
+      function render() {
+        const L = UI[lang],
+          D = DATA;
+        document.documentElement.lang = lang;
+        document.getElementById("lang").textContent =
+          lang === "vi" ? "EN" : "VI";
+        const NAME = t(D.name);
+        document.title = `Portfolio — ${NAME}`;
+        const words = NAME.trim().split(/\s+/);
+        const first = words.slice(0, -1).join(" "),
+          last = words[words.length - 1];
+        const loc = D.contact.find((c) => !c.href);
+        const email = D.contact.find((c) => /^mailto:/.test(c.href || ""));
+        const E = D.education;
+        const nProjects = D.projects.length,
+          lastNo = 5 + nProjects * 3;
+        const techCount = new Set(D.skills.flatMap((s) => s.items)).size;
+
+        /* 01 COVER */
+        let html = page(
+          1,
+          L.cover,
+          new Date().getFullYear(),
+          `
+    <div class="split">
+      <div>
+        <h1>${esc(first)}<span>${esc(last)}.</span></h1>
+        <p class="role">${esc(t(D.headline))}</p>
+      </div>
+      <div>
+        <dl>
+          <dt>${L.role}</dt><dd>${esc(t(D.headline))}</dd>
+          ${loc ? `<dt>${L.loc}</dt><dd>${esc(t(loc.v))}</dd>` : ""}
+          <dt>${L.status}</dt><dd class="status">${L.available}</dd>
+        </dl>
+        <div class="actions">
+          <button class="btn solid" data-go="3">${L.seeWork} →</button>
+          <button class="btn" data-go="${lastNo}">${L.contactMe}</button>
+        </div>
+      </div>
+    </div>
+    <p class="scroll-hint">${L.scroll}</p>`,
+          "cover seen",
+        );
+
+        /* 02 ABOUT ME */
+        html += page(
+          2,
+          L.about,
+          NAME,
+          `
+    <div class="split">
+      <div class="about">
+        ${ghost(L.hello)}<h2 class="title">${L.hello}<span class="dot">.</span></h2>
+        <h3>${L.iam} ${esc(NAME)}</h3>
+        <p class="lead">${esc(t(D.about))}</p>
+        <div class="edu">
+          <span class="label">${L.edu}</span>
+          <h4>${esc(t(E.school))}</h4>
+          <p>${esc(t(E.major))} · ${esc(t(E.time))} · ${esc(t(E.rank))}</p>
+          <div class="edu-stats">${E.stats.map((s) => `<div><b>${esc(s.v)}</b><span class="label">${esc(t(s.k))}</span></div>`).join("")}</div>
+        </div>
+      </div>
+      <div>
+        <dl class="info">${D.contact.map((c) => `<dt>${esc(t(c.k))}</dt><dd>${c.href ? `<a ${ext(c.href)}>${esc(t(c.v))}</a>` : esc(t(c.v))}</dd>`).join("")}</dl>
+        <div class="actions"><a class="btn solid" ${ext(D.cv.view)}>${L.viewCv} ↗</a><a class="btn" href="${esc(D.cv.pdf)}" download>${L.dlCv}</a></div>
+      </div>
+    </div>`,
+        );
+
+        /* 03 SKILLS */
+        html += page(
+          3,
+          L.skills,
+          NAME,
+          `
+    <div class="split">
+      <div>
+        ${ghost(L.skills)}<h2 class="title">${L.skills}<span class="dot">.</span></h2>
+        <p class="lead">${L.skillsLead}</p>
+        <div class="count"><div><b>${techCount}+</b><span class="label">${L.techs}</span></div><div><b>${pad(nProjects)}</b><span class="label">${L.projects}</span></div></div>
+      </div>
+      <div class="rows">${D.skills.map((s) => `<div class="row"><span class="label">${esc(t(s.g))}</span>${chips(s.items)}</div>`).join("")}</div>
+    </div>`,
+        );
+
+        /* 04 SELECTED PROJECTS */
+        html += page(
+          4,
+          L.selected,
+          NAME,
+          `
+    <div class="split">
+      <div>
+        ${ghost(t({ vi: "Dự án", en: "Projects" }))}<h2 class="title">${L.selected}<span class="dot">.</span></h2>
+        <p class="lead">${L.selectedLead}</p>
+      </div>
+      <div class="plist">${D.projects
+        .map(
+          (p, i) => `
+        <button class="pitem" data-go="${FIRST_PROJECT + i * 3}">
+          <span class="n">${pad(i + 1)}</span>
+          <div><h3>${esc(p.name)}</h3><p>${esc(t(p.tagline))} · ${esc(p.year)}</p>${chips(p.tags.slice(0, 4))}</div>
+          <span class="arr">→</span>
+        </button>`,
+        )
+        .join("")}</div>
+    </div>`,
+        );
+
+        /* 05–13 PROJECTS */
+        D.projects.forEach((p, i) => (html += projectPages(p, i, 5 + i * 3)));
+
+        /* 14 GITHUB / RESUME */
+        html += page(
+          lastNo,
+          L.ghK,
+          NAME,
+          `
+    <div class="split top">
+      <div>
+        ${ghost("GitHub")}<div class="gh-head">${GH_ICON}<div><h3>@${esc(D.github.user)}</h3><a ${ext(D.github.href)}>${esc(D.github.href.replace(/^https?:\/\//, ""))}</a></div></div>
+        <p class="lead">${esc(t(D.github.bio))}</p>
+        <div class="rows" style="margin-top:20px">${D.projects.map((p) => `<a class="repo" ${ext(p.repo || D.github.href)}><div><strong>${esc(p.name)}</strong><span>${esc(p.tags.slice(0, 3).join(" · "))}</span></div><em>↗</em></a>`).join("")}</div>
+        <div class="actions"><a class="btn solid" ${ext(D.github.href)}>${L.openGh} ↗</a></div>
+      </div>
+      <div>
+        <h3 class="head" style="font-size:24px;font-weight:600;margin-bottom:14px">${L.cvTitle}</h3>
+        <dl class="info">
+          <dt>${L.role}</dt><dd>${esc(t(D.headline))}</dd>
+          <dt>${L.eduShort}</dt><dd>${esc(t(D.school))}</dd>
+          ${loc ? `<dt>${L.loc}</dt><dd>${esc(t(loc.v))}</dd>` : ""}
+        </dl>
+        <div class="actions"><a class="btn solid" ${ext(D.cv.view)}>${L.viewCv} ↗</a><a class="btn" href="${esc(D.cv.pdf)}" download>${L.dlCv}</a></div>
+      </div>
+    </div>`,
+        );
+
+        /* 15 CONTACT / THANK YOU */
+        html += page(
+          lastNo + 1,
+          L.contact,
+          NAME,
+          `
+    <div>
+      ${ghost(L.ghostThanks, "center")}<h2>${L.thanks}<span class="dot">.</span></h2>
+      <p>${L.thanksSub}</p>
+      <div class="actions">${D.contact
+        .filter((c) => c.href)
+        .map(
+          (c, i) =>
+            `<a class="btn ${c === email ? "solid" : ""}" ${ext(c.href)}>${esc(t(c.v))} ↗</a>`,
+        )
+        .join("")}</div>
+    </div>`,
+          "thanks no-line",
+        );
+
+        const deck = document.getElementById("deck");
+        const keep = deck.scrollTop;
+        deck.innerHTML = html;
+        deck.scrollTop = keep;
+        setup();
+      }
+
+      /* ============================ BEHAVIOUR ============================ */
+      let slides = [],
+        current = 0;
+      function setup() {
+        const deck = document.getElementById("deck");
+        slides = [...deck.querySelectorAll(".slide")];
+        const total = slides.length;
+        const prog = document.getElementById("progress");
+        prog.innerHTML = slides
+          .map((_, i) => `<button aria-label="${i + 1}"></button>`)
+          .join("");
+        [...prog.children].forEach((b, i) => (b.onclick = () => go(i)));
+        deck
+          .querySelectorAll("[data-go]")
+          .forEach((b) => (b.onclick = () => go(+b.dataset.go)));
+
+        const io = new IntersectionObserver(
+          (es) =>
+            es.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("seen");
+            }),
+          { root: deck, threshold: 0.15 },
+        );
+        slides.forEach((s) => io.observe(s));
+
+        const sync = () => {
+          const mid = deck.scrollTop + deck.clientHeight / 2;
+          let cur = 0;
+          slides.forEach((s, i) => {
+            if (s.offsetTop <= mid) cur = i;
+          });
+          current = cur;
+          document.getElementById("counter").innerHTML =
+            `${pad(cur + 1)} <span>/ ${pad(total)}</span>`;
+          [...prog.children].forEach((b, i) =>
+            b.classList.toggle("on", i === cur),
+          );
+        };
+        deck.onscroll = sync;
+        sync();
+
+        document.querySelectorAll("[data-g]").forEach((g) => {
+          const items = [...g.children],
+            nav = g.nextElementSibling,
+            n = items.length;
+          let k = 0;
+          const fit = () => {
+            const h = Math.max(...items.map((el) => el.offsetHeight));
+            if (h) g.style.height = h + 20 + "px";
+          };
+          items.forEach((el) => {
+            const img = el.querySelector("img");
+            if (!img) return;
+            const ratio = () => {
+              if (img.naturalWidth)
+                el.style.setProperty("--ar", img.naturalWidth / img.naturalHeight);
+              fit();
+            };
+            img.complete ? ratio() : img.addEventListener("load", ratio);
+          });
+          window.addEventListener("resize", fit);
+          const draw = () => {
+            items.forEach((el, i) => {
+              let d = i - k;
+              if (d > n / 2) d -= n;
+              if (d < -n / 2) d += n;
+              const ad = Math.abs(d);
+              el.style.transform = `translate(calc(-50% + ${d * 34}%), -50%) scale(${1 - ad * 0.14})`;
+              el.style.zIndex = 10 - ad;
+              el.style.opacity = ad > 1 ? 0 : 1 - ad * 0.45;
+              el.classList.toggle("on", d === 0);
+            });
+            nav.querySelector("[data-gc]").textContent = `${k + 1} / ${n}`;
+          };
+          nav.querySelector("[data-prev]").onclick = () => {
+            k = (k - 1 + n) % n;
+            draw();
+          };
+          nav.querySelector("[data-next]").onclick = () => {
+            k = (k + 1) % n;
+            draw();
+          };
+          items.forEach(
+            (el, i) =>
+              (el.onclick = () => {
+                const imgs = items.map((x) => x.querySelector("img")).filter(Boolean);
+                const img = el.querySelector("img");
+                if (i === k && img) return openLb(imgs, imgs.indexOf(img));
+                k = i;
+                draw();
+              }),
+          );
+          draw();
+        });
+
+        document
+          .querySelectorAll(".shot.has-img img")
+          .forEach((img) => (img.onclick = () => openLb([img], 0)));
+      }
+
+      /* lightbox: xem ảnh cỡ lớn */
+      const lbEl = document.getElementById("lb");
+      let lbList = [],
+        lbI = 0;
+      function drawLb() {
+        const img = lbList[lbI];
+        document.getElementById("lb-img").src = img.src;
+        document.getElementById("lb-img").alt = img.alt;
+        const n = lbList.length;
+        document.getElementById("lb-cap").textContent =
+          (img.alt ? img.alt : "") + (n > 1 ? ` · ${lbI + 1} / ${n}` : "");
+        lbEl.querySelectorAll(".prev,.next").forEach((b) => (b.hidden = n < 2));
+      }
+      function openLb(list, i) {
+        lbList = list;
+        lbI = Math.max(0, i);
+        drawLb();
+        lbEl.hidden = false;
+        lbEl.querySelector(".lb-x").focus();
+      }
+      const closeLb = () => (lbEl.hidden = true);
+      const stepLb = (s) => {
+        lbI = (lbI + s + lbList.length) % lbList.length;
+        drawLb();
+      };
+      lbEl.onclick = (e) => {
+        const a = e.target.dataset.lb;
+        if (a === "close" || e.target === lbEl || e.target.tagName === "FIGURE") closeLb();
+        if (a === "prev") stepLb(-1);
+        if (a === "next") stepLb(1);
+      };
+
+      function go(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        slides[i].scrollIntoView({ behavior: "smooth" });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (!lbEl.hidden) {
+          if (e.key === "Escape") closeLb();
+          if (e.key === "ArrowLeft") stepLb(-1);
+          if (e.key === "ArrowRight") stepLb(1);
+          if (e.key !== "Tab") e.preventDefault();
+          return;
+        }
+        if (["ArrowDown", "PageDown", " "].includes(e.key)) {
+          e.preventDefault();
+          go(current + 1);
+        }
+        if (["ArrowUp", "PageUp"].includes(e.key)) {
+          e.preventDefault();
+          go(current - 1);
+        }
+        if (e.key === "Home") go(0);
+        if (e.key === "End") go(slides.length - 1);
+      });
+
+      document.getElementById("lang").onclick = () => {
+        lang = lang === "vi" ? "en" : "vi";
+        try {
+          localStorage.setItem("pf-lang", lang);
+        } catch (e) {}
+        render();
+        slides.forEach((s) => s.classList.add("seen"));
+      };
+
+      const root = document.documentElement;
+      try {
+        const th = localStorage.getItem("pf-theme");
+        if (th) root.dataset.theme = th;
+      } catch (e) {}
+      document.getElementById("theme").onclick = () => {
+        const dark = root.dataset.theme === "dark";
+        root.dataset.theme = dark ? "light" : "dark";
+        try {
+          localStorage.setItem("pf-theme", root.dataset.theme);
+        } catch (e) {}
+      };
+
+      render();
+
+      /* Đánh thức server demo: Render gói free ngủ sau ~15 phút không có request,
+         nên ping ngầm ngay khi trang mở và cứ 10 phút một lần khi tab đang được xem.
+         no-cors: không cần đọc response, chỉ cần request tới được server. */
+      const PINGS = DATA.projects.map((p) => p.ping).filter(Boolean);
+      const wake = () =>
+        PINGS.forEach((u) =>
+          fetch(u, { mode: "no-cors", cache: "no-store" }).catch(() => {}),
+        );
+      wake();
+      // tối đa 3 lần nhắc lại (~30 phút) để một tab bị bỏ quên không giữ server thức mãi
+      let rewakes = 0;
+      const timer = setInterval(() => {
+        if (document.visibilityState !== "visible") return;
+        wake();
+        if (++rewakes >= 3) clearInterval(timer);
+      }, 10 * 60 * 1000);
+    </script>
+  </body>
+</html>
