@@ -2212,10 +2212,16 @@
           fetch(u, { mode: "no-cors", cache: "no-store" }).catch(() => {}),
         );
       wake();
-      // tối đa 3 lần nhắc lại (~30 phút) để một tab bị bỏ quên không giữ server thức mãi
-      let rewakes = 0;
+      // Chỉ nhắc lại khi người xem còn thao tác (cuộn, bấm, gõ phím) trong 10 phút qua,
+      // và tối đa 3 lần (~30 phút): tab bị treo/bỏ quên thì không giữ server thức.
+      let lastActive = Date.now(),
+        rewakes = 0;
+      ["pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) =>
+        addEventListener(ev, () => (lastActive = Date.now()), { passive: true }),
+      );
       const timer = setInterval(() => {
-        if (document.visibilityState !== "visible") return;
+        const idle = Date.now() - lastActive > 10 * 60 * 1000;
+        if (document.visibilityState !== "visible" || idle) return;
         wake();
         if (++rewakes >= 3) clearInterval(timer);
       }, 10 * 60 * 1000);
